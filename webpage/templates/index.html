@@ -8,11 +8,12 @@
                                      maximum-scale=1.0,
                                      user-scalable=no">
 
+    {% load staticfiles %}
     <title>股票舆情监控系统</title>
-    <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/css/index.css" rel="stylesheet">
-    <script src="static/js/jquery-1.11.3.js"></script>
-    <script src="static/bootstrap/js/bootstrap.min.js"></script>
+    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/index.css" %}" rel="stylesheet">
+    <script src="{% static "js/jquery-1.11.3.js" %}"></script>
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 
 </head>
 <body>
@@ -29,11 +30,11 @@
         <div id="searchbox" class="row">
 
             <div class="col-md-6 col-xs-6 col-md-offset-2 col-xs-offset-2">
-                <input  type="text" class="form-control"  id="name"
+                <input  type="text" class="form-control"  id="searchtext"
                          placeholder="请输入股票名称或股票代码">
             </div>
             <div class="col-md-4 col-xs-4 ">
-            <a id="searchbtn" type="button" class="btn btn-primary" >进入</a>
+            <a id="searchbtn" type="button" class="btn btn-primary" >搜索</a>
                 </div>
 
            </div>
@@ -132,5 +133,17 @@
     </div>
 
 </footer>
+<script>
+    $(document).ready(function () {
+        $("#searchbtn").click(function () {
+            window.location.href="{% url 'indexsearch'%}"+"?item="+$("#searchtext").val();
+        });
+        $("#searchtext").bind("keyup", function (event) {
+           if(event.keyCode=="13"){
+               window.location.href="{% url 'indexsearch'%}"+"?item="+$("#searchtext").val();
+           }
+        });
+    });
+</script>
 </body>
 </html>

@@ -2,6 +2,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import company
+from django.db.models import Q
+
 # Create your views here.
 
 def index(request):
@@ -21,7 +23,11 @@ def indexnews(request):
 
 def indexattentions(request):
     return render(request,'index.html')
-
+def indexsearch(request):
+    company_list=company.objects.filter(Q(name__icontains=request.GET['item'])|Q(stockno__icontains=request.GET['item']))
+    #company_list+=company.objects.filter(stockno__startswith=request.GET['item'])
+    context={'company_list':company_list}
+    return render(request,'indexsearch.html',context)
 
 def viewcompany(request,stockno):
     name=company.objects.all()[0].description

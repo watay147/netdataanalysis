@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^indexevents$','webpage.views.indexevents',name='indexevents'),
     url(r'^indexnews$','webpage.views.indexnews',name='indexnews'),
     url(r'^indexattentions$','webpage.views.indexattentions',name='indexattentions'),
+    url(r'^indexsearch/','webpage.views.indexsearch',name='indexsearch'),
 
     url(r'^viewcompany/(\d+)$','webpage.views.viewcompany',name='viewcompany'),
     url(r'^viewevents/(\d+)$','webpage.views.viewevents',name='viewevents'),
