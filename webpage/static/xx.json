@@ -1,0 +1,48 @@
+{
+    "entity":{
+        "list":[
+            {
+                "productType":"Hisense M20-T",
+                "tydcUniteCode":null,
+                "brandName":"海信",
+                "apCoreCount":"四核",
+
+    "apFrequency":"1100",
+                "apModel":"MSM8909",
+                "ram":"512M",
+                "advicePrice":399,
+                "screenCount":"单屏幕",
+                "screenSize":"5",
+                "screenResolution":"电容式触摸屏",
+                "screenType":"FWVGA 480*854",
+                "color":"白色",
+                "mainCamera":"500万像素",
+                "secondCamera":"30万像素"
+            },
+            {
+                "productType":"Hisense M20-T",
+                "tydcUniteCode":null,
+                "brandName":"海信",
+                "apCoreCount":"四核",
+                "apFrequency":"1100",
+                "apModel":"MSM8909",
+                "ram":"512M",
+                "advicePrice":399,
+                "screenCount":"单屏幕",
+                "screenSize":"5",
+                "screenResolution":"电容式触摸屏",
+                "screenType":"FWVGA 480*854",
+                "color":"黑色",
+                "mainCamera":"500万像素",
+                "secondCamera":"30万像素"
+            }
+        ],
+        "totalCount":3978,
+        "currentPage":1,
+        "pageSize":2,
+        "pageCount":1989
+    },
+    "failureCode":"",
+    "msg":"获取提供给普林的产品信息成功",
+    "msgCode":1
+}

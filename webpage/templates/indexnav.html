@@ -1,0 +1,21 @@
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'index' %}">股票舆情监控系统</a>
+        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                data-target="#example-navbar-collapse">
+            <span class="sr-only">切换导航</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse" id="example-navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="{% url 'indexcreditorders' %}">信誉度排名</a></li>
+            <li><a href="{% url 'indexevents' %}">舆情事件</a></li>
+            <li><a href="{% url 'indexnews' %}">热门新闻</a></li>
+            <li><a href="{% url 'indexattentions' %}">股情预警</a></li>
+        </ul>
+    </div>
+</nav>

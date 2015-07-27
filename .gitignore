@@ -1,0 +1,7 @@
+*.pyc
+*~
+*.txt
+*.bat
+*.sqlite3
+.idea/*
+design/*
