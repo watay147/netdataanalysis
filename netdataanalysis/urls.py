@@ -27,7 +27,8 @@ urlpatterns = [
     url(r'^indexsearch/','webpage.views.indexsearch',name='indexsearch'),
 
     url(r'^viewcompany/(\d+)$','webpage.views.viewcompany',name='viewcompany'),
-    url(r'^viewevents/(\d+)$','webpage.views.viewevents',name='viewevents'),
-    url(r'^viewnews/(\d+)$','webpage.views.viewnews',name='viewnews'),
+    url(r'^complotdata$','webpage.views.complotdata',name='complotdata'),
+    url(r'^viewevent/(\d+)$','webpage.views.viewevent',name='viewevent'),
+    url(r'^viewnew/(\d+)$','webpage.views.viewnew',name='viewnew'),
 
 ]

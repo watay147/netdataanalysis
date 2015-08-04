@@ -28,6 +28,30 @@ class statics(models.Model):
     neusent=models.IntegerField()
     creditindex=models.FloatField()
     creditorder=models.IntegerField()
+    price=models.FloatField()
 
     def __unicode__(self):  # __str__ on Python 3
-        return self.companyname
+        return str(self.id)
+
+class events(models.Model):
+    stockno=models.CharField(max_length=6)
+    date=models.DateField()
+    content=models.TextField()
+    title=models.CharField(max_length=100)
+    hot=models.IntegerField()
+
+    def __unicode__(self):  # __str__ on Python 3
+        return self.title
+
+class news(models.Model):
+    stockno=models.CharField(max_length=6)
+    date=models.DateField()
+    content=models.TextField()
+    title=models.CharField(max_length=100)
+    hot=models.IntegerField()
+
+    def __unicode__(self):  # __str__ on Python 3
+        return self.title
+        
+
+

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head >
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width,
+                                     initial-scale=1.0,
+                                     maximum-scale=1.0,
+                                     user-scalable=no">
+
+    {% load staticfiles %}
+    <title>股票舆情监控系统</title>
+    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/index.css" %}" rel="stylesheet">
+    <script src="{% static "js/jquery-1.11.3.js" %}"></script>
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+
+</head>
+<body>
+{% include 'indexnav.html' %}
+
+<div class="container" style="min-height: 500px;">
+    <div class="row">
+        <h1 class="text-center">热门新闻</h1>
+        <div class="text-center row">
+
+            {% if new_list %}
+            {% for new in new_list %}
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <a href="{% url 'viewnew' new.id %}">{{ new.title }}</a>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                日期：{{new.date}}
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>没有热门新闻</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+</body>
+</html>

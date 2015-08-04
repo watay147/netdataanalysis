@@ -2,7 +2,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import company
+from .models import events
+from .models import news
+from .models import statics
+from django.shortcuts import get_object_or_404
 from django.db.models import Q
+import json
 
 # Create your views here.
 
@@ -13,31 +18,95 @@ def index(request):
     return render(request,'index.html', context)
 
 def indexcreditorders(request):
-    return render(request,'index.html')
+    order_list=company.objects.order_by('creditorder').all()
+    context = {'order_list': order_list}
+    return render(request,'indexcreditorders.html',context)
 
 def indexevents(request):
-    return render(request,'index.html')
+    event_list=events.objects.order_by('hot').all()
+    context = {'event_list': event_list}
+    return render(request,'indexevents.html',context)
 
 def indexnews(request):
-    return render(request,'index.html')
+    new_list=news.objects.order_by('hot').all()
+    context = {'new_list': new_list}
+    return render(request,'indexnews.html',context)
 
 def indexattentions(request):
-    return render(request,'index.html')
+    return render(request,'indexattentions.html')
+
 def indexsearch(request):
     company_list=company.objects.filter(Q(name__icontains=request.GET['item'])|Q(stockno__icontains=request.GET['item']))
-    #company_list+=company.objects.filter(stockno__startswith=request.GET['item'])
     context={'company_list':company_list}
     return render(request,'indexsearch.html',context)
 
 def viewcompany(request,stockno):
-    name=company.objects.all()[0].description
-    return HttpResponse(stockno+':'+name)
+    acompany=get_object_or_404(company, stockno=stockno)
+    event_list=events.objects.order_by('hot').filter(stockno=stockno)
+    new_list=news.objects.order_by('hot').filter(stockno=stockno)
+    context={"company":acompany,
+            "event_list":event_list,
+            "new_list":new_list}
+    return render(request,'company.html',context)
 
-def viewevents(request,id):
-    return HttpResponse(eventsid)
 
-def viewnews(request,id):
-    return HttpResponse(eventsid)
+
+def linedata(stockno):
+    plotdata=statics.objects.order_by('stadate').filter(stockno=stockno)
+    result={}
+    result['legend']=[u'舆情指数',u'股价']
+    result['category']=[str(x.stadate) for x in plotdata]#只能使用.xx访问而不是['xx']
+    result['series']=[]
+    result['series'].append({
+        'name':u'舆情指数',
+        'type':'line',
+        'data':[x.creditindex for x in plotdata]
+        })
+    result['series'].append({
+        'name':u'股价',
+        'type':'line',
+        'yAxisIndex':1,
+        'data':[x.price for x in plotdata]
+        })
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+def piedata(stockno):
+    piedata=statics.objects.order_by('-stadate').filter(stockno=stockno)[0]
+    total=piedata.possent+piedata.negsent+piedata.neusent
+    result={}
+    result['legend']=[u'正向',u'负向',u'中性']
+    result['series']=[]
+    result['series'].append({
+        'name':u'占比',
+        
+        'type':'pie',
+        'center': ['30%', '60%'],
+        'data':[
+        {'value':float(piedata.possent)/total,'name':u'正向'},
+        {'value':float(piedata.negsent)/total,'name':u'负向'},
+        {'value':float(piedata.neusent)/total,'name':u'中性'}
+        ]
+        })
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+def complotdata(request):
+    stockno=request.GET['stockno']
+    plottype=request.GET['type']
+    if plottype=='line':
+        return linedata(stockno)
+    elif plottype=='pie':
+        return piedata(stockno)
+
+
+def viewevent(request,eventsid):
+    article=events.objects.get(id=eventsid)
+    context={"article":article}
+    return render(request,'article.html',context)
+
+def viewnew(request,newsid):
+    article=news.objects.get(id=newsid)
+    context={"article":article}
+    return render(request,'article.html',context)
 
 
 

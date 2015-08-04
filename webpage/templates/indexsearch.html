@@ -9,25 +9,63 @@
     {% load staticfiles %}
     <title>股票舆情监控系统</title>
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "css/index.css" %}" rel="stylesheet">
+    <link href="{% static "css/indexsearch.css" %}" rel="stylesheet">
     <script src="{% static "js/jquery-1.11.3.js" %}"></script>
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 
 </head>
 <body>
 {% include 'indexnav.html' %}
-<div class="container text-center">
+<div class="container text-center" style="min-height: 500px;">
     <div class="row">
+        <div id="searchbox" class="row">
+
+            <div class="col-md-6 col-xs-6 ">
+                <input  type="text" class="form-control"  id="searchtext"
+                        placeholder="请输入股票名称或股票代码">
+            </div>
+            <div class="col-md-2 col-xs-2 ">
+                <a id="searchbtn" type="button" class="btn btn-primary" >搜索</a>
+            </div>
+
+        </div>
+
+    </div>
+    <hr/>
+
+    <div class="row">
+
+        <div class="col-md-12 text-left" >
+            <p>搜索结果：</p><br/><br/>
+
         {% if company_list %}
-        <ul>
+
             {% for company in company_list %}
-            <li><a  class="text-left" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a></li>
+       <span>公司名称：</span> <a  class="text-left" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+           <br/>
+            <span>股票代号：{{ company.stockno }}</span>
+            <hr/>
             {% endfor %}
-        </ul>
+
         {% else %}
         <p>数据库中没有相关的公司</p>
         {% endif %}
+        </div>
     </div>
     </div>
+
+{% include 'footer.html' %}
+<script>
+    $(document).ready(function () {
+        $("#searchbtn").click(function () {
+            window.location.href="{% url 'indexsearch'%}"+"?item="+$("#searchtext").val();
+        });
+        $("#searchtext").bind("keyup", function (event) {
+            if(event.keyCode=="13"){
+                window.location.href="{% url 'indexsearch'%}"+"?item="+$("#searchtext").val();
+            }
+        });
+    });
+</script>
 </body>
 </html>

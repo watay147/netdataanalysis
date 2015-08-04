@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head >
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width,
+                                     initial-scale=1.0,
+                                     maximum-scale=1.0,
+                                     user-scalable=no">
+
+    {% load staticfiles %}
+    <title>股票舆情监控系统</title>
+    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/index.css" %}" rel="stylesheet">
+    <script src="{% static "js/jquery-1.11.3.js" %}"></script>
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+
+</head>
+<body>
+{% include 'indexnav.html' %}
+<div class="container" style="min-height: 500px;">
+    <div class="row">
+        <h1 class="text-center">信誉度排名</h1>
+        <div class="text-center">
+
+            {% if order_list %}
+            {% for company in order_list %}
+                <a class="col-md-6" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a><span class="col-md-6" >排名第{{company.creditorder}}名</span>
+                <br/>
+            {% endfor %}
+            {% else %}
+            <p>没有排名</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}
+</body>
+</html>

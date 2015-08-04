@@ -39,14 +39,14 @@
 
            </div>
     <div  id="display" class="row">
-        <div class="col-md-6 col-sm-6 col-xs-12 text-center">
-            <div class="row">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12 text-center">
                 <h3>Top10信誉度排名公司</h3>
                 {% if topcredit_list %}
 
-                    {% for company in topcredit_list %}
+                {% for company in topcredit_list %}
 
-                 <a class="col-md-6 col-sm-6 col-sm-6 text-left" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                <a class="col-md-6 col-sm-6 col-sm-6 text-left" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
 
                 {% if company.creditchange < 0 %}
 
@@ -62,42 +62,13 @@
                 <span class="col-md-5 col-sm-5 col-sm-5 text-right">排名第{{company.creditorder }}名</span>
 
                 <br/>
-                    {% endfor %}
+                {% endfor %}
 
                 {% else %}
                 <p>没有信誉度前10公司列表</p>
                 {% endif %}
-
             </div>
-            <div class="row">
-                <h3>预警信息</h3>
-                {% if attention_list %}
-
-                    {% for company in attention_list %}
-                <a class="col-md-12 col-sm-12 col-sm-12 text-left" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}
-                {% if company.creditchange < 0 %}
-
-
-               信誉度排名上升{% widthratio company.creditchange 1 -1 %}名
-                {% elif company.creditchange > 0 %}
-               信誉度排名下降{% widthratio company.creditchange 1 1 %}名
-                {% else %}
-
-               信誉度排名不变
-                {% endif %}
-                </a>
-                <br/>
-                    {% endfor %}
-
-                {% else %}
-                <p>No polls are available.</p>
-                {% endif %}
-                    </div>
-
-
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-12 text-center">
-            <div>
+            <div class="col-md-6 col-sm-6 col-xs-12 text-center">
                 <h3>Top10舆情事件</h3>
                 {% if topevent_list %}
                 <ul>
@@ -106,10 +77,38 @@
                     {% endfor %}
                 </ul>
                 {% else %}
-                <p>No polls are available.</p>
+                <p>没有可供展示的舆情事件</p>
                 {% endif %}
             </div>
-            <div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12 text-center">
+                <h3>预警信息</h3>
+                {% if attention_list %}
+
+                {% for company in attention_list %}
+                <a class="col-md-12 col-sm-12 col-xs-12 text-left" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}
+
+                    {% if company.creditchange < 0 %}
+
+
+                    信誉度排名上升{% widthratio company.creditchange 1 -1 %}名
+                    {% elif company.creditchange > 0 %}
+                    信誉度排名下降{% widthratio company.creditchange 1 1 %}名
+                    {% else %}
+
+                    信誉度排名不变
+                    {% endif %}
+                </a>
+                <br/>
+                {% endfor %}
+
+                {% else %}
+                <p>No polls are available.</p>
+                {% endif %}
+                </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 text-center">
                 <h3>Top10热门新闻</h3>
                 {% if topnew_list %}
                 <ul>
@@ -118,21 +117,17 @@
                     {% endfor %}
                 </ul>
                 {% else %}
-                <p>No polls are available.</p>
+                <p>没有可供展示的热门新闻</p>
                 {% endif %}
-            </div>
+                </div>
         </div>
+
 
     </div>
 
 
 </div>
-<footer>
-    <div class="container">
-        Power by DBlab
-    </div>
-
-</footer>
+{% include 'footer.html' %}
 <script>
     $(document).ready(function () {
         $("#searchbtn").click(function () {
