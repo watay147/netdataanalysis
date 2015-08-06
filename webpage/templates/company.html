@@ -10,11 +10,14 @@
 
     {% load staticfiles %}
     <title>股票舆情监控系统</title>
-    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "css/company.css" %}" rel="stylesheet">
-    <script src="{% static "js/jquery-1.11.3.js" %}"></script>
+    <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" />
+    <link href="{% static "css/company.css" %}" rel="stylesheet" />
+    <script src="{% static "js/jquery-1.11.3.js" %}" /></script>
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
-    <script src="http://echarts.baidu.com/build/dist/echarts.js"></script>
+    <script src="{% static "echarts/build/dist/echarts.js" %}"></script>
+    <link rel="stylesheet" media="screen" type="text/css" href="{% static "css/datepicker.css" %}" />
+    <script type="text/javascript" src="{% static "js/datepicker.js" %}" ></script>
+
 </head>
 <body>
 {% include 'indexnav.html' %}
@@ -39,6 +42,19 @@
     <div class="row">
         <h3>热点舆情</h3>
         <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <label>选择统计时段：</label><br/>
+                <label>起始日期：</label><input id="startdate" value="2015-07-06"/><br/>
+                <label>终止日期：</label><input id="enddate" value="2015-07-08"/><br/>
+                <a id="getpiechart" type="button" class="btn btn-primary" >Go</a>
+                </div>
+            <div class="col-md-8 col-sm-8 col-xs-8">
+            <div id="piechart" style="height: 400px;width:500px;">
+
+            </div>
+            </div>
+        </div>
+        <div class="row">
         {% if event_list %}
         {% for event in event_list %}
         <div class="col-md-6 col-sm-6 col-xs-6">
@@ -52,11 +68,7 @@
         <p>没有舆情事件</p>
         {% endif %}
         </div>
-        <div class="row">
-        <div id="piechart" style="height: 400px;width=800px;">
 
-        </div>
-        </div>
     </div>
     <hr/>
     <div class="row">
@@ -88,6 +100,80 @@
 {% include 'footer.html' %}
 
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#startdate').DatePicker({
+            format:'Y-m-d',
+            date: $('#startdate').val(),
+            current: $('#startdate').val(),
+            starts: 1,
+            position: 'right',
+            onBeforeShow: function(){
+                $('#startdate').DatePickerSetDate($('#startdate').val(), true);
+            },
+            onChange: function(formated, dates){
+                $('#startdate').val(formated);
+                if ($('#closeOnSelect input').attr('checked')) {
+                    $('#startdate').DatePickerHide();
+                }
+            }
+        });
+
+        $('#enddate').DatePicker({
+            format:'Y-m-d',
+            date: $('#enddate').val(),
+            current: $('#enddate').val(),
+            starts: 1,
+            position: 'right',
+            onBeforeShow: function(){
+                $('#enddate').DatePickerSetDate($('#enddate').val(), true);
+            },
+            onChange: function(formated, dates){
+                $('#enddate').val(formated);
+                if ($('#closeOnSelect input').attr('checked')) {
+                    $('#enddate').DatePickerHide();
+                }
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $("#getpiechart").click(function () {
+            mypieChart.showLoading({
+                text:"图表数据正在努力加载..."
+            });
+            pieoptions={
+                title : {
+                    text: '各类舆情偏向占比',
+                    x:'left'
+                },
+                legend:{
+                    data:[],
+                    x:'center'
+
+                },
+                calculable : true,
+                series :[]
+            };
+            $.ajax({
+                type:"get",
+                async:true,
+                url:'{% url 'complotdata' %}',
+                dataType:"json",
+                data:{stockno:'{{company.stockno}}',type:'pie',sta:$('#startdate').val(),end:$('#enddate').val()},
+                success: function (result) {
+                    if(result){
+
+                        pieoptions.series = result.series;
+                        pieoptions.legend.data = result.legend;
+                        mypieChart.hideLoading();
+                        mypieChart.setOption(pieoptions);
+                    }
+                }
+            });
+        });
+    });
+
     // 路径配置
     require.config({
         paths: {
@@ -187,8 +273,8 @@
     }
 
     function initpiechart(ec){
-        var myChart = ec.init(document.getElementById('piechart'));
-        myChart.showLoading({
+        mypieChart = ec.init(document.getElementById('piechart'));
+        mypieChart.showLoading({
             text:"图表数据正在努力加载..."
         });
         pieoptions={
@@ -204,22 +290,10 @@
             calculable : true,
             series :[]
         };
-        $.ajax({
-            type:"get",
-            async:true,
-            url:'{% url 'complotdata' %}',
-            dataType:"json",
-            data:{stockno:'{{company.stockno}}',type:'pie'},
-            success: function (result) {
-                if(result){
 
-                    pieoptions.series = result.series;
-                    pieoptions.legend.data = result.legend;
-                    myChart.hideLoading();
-                    myChart.setOption(pieoptions);
-                }
-            }
-        });
+        mypieChart.hideLoading();
+        mypieChart.setOption(pieoptions);
+
     }
 </script>
 </body>

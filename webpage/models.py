@@ -16,6 +16,7 @@ class company(models.Model):
     creditorder=models.IntegerField()
     creditchange=models.IntegerField()
     attention=models.BooleanField()
+    attentionreason=models.CharField(max_length=1000)
 
     def __unicode__(self):  # __str__ on Python 3
         return self.name

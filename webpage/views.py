@@ -70,7 +70,7 @@ def linedata(stockno):
         })
     return HttpResponse(json.dumps(result), content_type="application/json")
 
-def piedata(stockno):
+def piedata(stockno,sta,end):
     piedata=statics.objects.order_by('-stadate').filter(stockno=stockno)[0]
     total=piedata.possent+piedata.negsent+piedata.neusent
     result={}
@@ -95,7 +95,7 @@ def complotdata(request):
     if plottype=='line':
         return linedata(stockno)
     elif plottype=='pie':
-        return piedata(stockno)
+        return piedata(stockno,request.GET['sta'],request.GET['end'])
 
 
 def viewevent(request,eventsid):
