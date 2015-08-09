@@ -22,17 +22,22 @@
 <div class="container" style="min-height: 500px;">
     <div class="row">
         <h1 class="text-center">热门舆情事件</h1>
-        <div class="text-center row">
+        <div class="text-center" style="max-width:750px;margin: auto;">
 
             {% if event_list %}
+            <table class="table text-center table-striped" >
             {% for event in event_list %}
-            <div class="col-md-6 col-sm-6 col-xs-6">
+                <tr>
+                    <td>
             <a href="{% url 'viewevent' event.id %}">{{ event.title }}</a>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-6">
-            日期：{{event.date}}
-            </div>
+                </td>
+        <td>
+
+            {{event.date}}
+        </td>
+                    </tr>
             {% endfor %}
+            </table>
             {% else %}
             <p>没有舆情事件</p>
             {% endif %}

@@ -1,0 +1,22 @@
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead{
+    font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB",
+    "Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+}
+body{
+    background-color: #F2F4F5;
+}
+h2{
+    padding-top: 17px;
+}
+.mod-head{
+
+
+    background-color: #FAFAFA;
+    border-bottom: 1px solid #ebebeb;
+
+}
+.mod-body{
+    padding:30px;
+    background-color: #FFF;
+    min-height: 500px;
+}

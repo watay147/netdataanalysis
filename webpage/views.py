@@ -60,7 +60,10 @@ def linedata(stockno):
     result['series'].append({
         'name':u'舆情指数',
         'type':'line',
-        'data':[x.creditindex for x in plotdata]
+        'data':[x.creditindex for x in plotdata],
+        'markPoint':{
+            'data':[{'name':x.markdescription,'value':x.creditindex,'xAxis':str(x.stadate),'yAxis':x.creditindex} for x in plotdata if x.shouldmark]
+        }
         })
     result['series'].append({
         'name':u'股价',

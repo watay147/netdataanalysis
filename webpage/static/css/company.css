@@ -1,3 +1,7 @@
+h1, .h1{
+    font-family: "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB",
+    "Hiragino Sans GB W3","Microsoft YaHei UI","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+}
 .container hr{
     border:none;
     border-top:1px solid #8c8c8c;
@@ -9,4 +13,14 @@
 
 h3{
     margin-top: 10px;
+}
+
+.mod-head{
+margin-top: 5px;
+    margin-bottom: 5px;
+padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #FAFAFA;
+
+
 }

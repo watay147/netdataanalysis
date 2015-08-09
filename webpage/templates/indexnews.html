@@ -22,17 +22,22 @@
 <div class="container" style="min-height: 500px;">
     <div class="row">
         <h1 class="text-center">热门新闻</h1>
-        <div class="text-center row">
+        <div class="text-center" style="max-width:750px;margin: auto;">
 
             {% if new_list %}
+            <table class="table text-center table-striped" >
             {% for new in new_list %}
-            <div class="col-md-6 col-sm-6 col-xs-6">
+                <tr>
+                    <td>
                 <a href="{% url 'viewnew' new.id %}">{{ new.title }}</a>
-            </div>
-            <div class="col-md-6 col-sm-6 col-xs-6">
-                日期：{{new.date}}
-            </div>
+          </td>
+                    <td>
+
+               {{new.date}}
+                    </td>
+                    </tr>
             {% endfor %}
+                </table>
             {% else %}
             <p>没有热门新闻</p>
             {% endif %}

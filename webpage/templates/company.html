@@ -22,6 +22,7 @@
 <body>
 {% include 'indexnav.html' %}
 <div class="container">
+    <br/>
     {% if company %}
     <div class="row">
         <div class="col-md-4 ">
@@ -32,9 +33,11 @@
 
             </div>
     </div>
-    <hr/>
+
     <div class="row">
+        <div class="mod-head">
         <h3>舆情指数与股价变化对比</h3>
+        </div>
         <div id="lineplot" style="height: 400px;">
         </div>
     </div>
@@ -43,18 +46,20 @@
         <h3>热点舆情</h3>
         <div class="row">
             <div class="col-md-4 col-sm-4 col-xs-4">
-                <label>选择统计时段：</label><br/>
+                <label>选择各类舆情偏向占比统计时段：</label><br/>
                 <label>起始日期：</label><input id="startdate" value="2015-07-06"/><br/>
                 <label>终止日期：</label><input id="enddate" value="2015-07-08"/><br/>
                 <a id="getpiechart" type="button" class="btn btn-primary" >Go</a>
                 </div>
             <div class="col-md-8 col-sm-8 col-xs-8">
-            <div id="piechart" style="height: 400px;width:500px;">
+            <div id="piechart" style="height: 400px;">
 
             </div>
             </div>
         </div>
+        <br/>
         <div class="row">
+
         {% if event_list %}
         {% for event in event_list %}
         <div class="col-md-6 col-sm-6 col-xs-6">
@@ -267,6 +272,8 @@
                     options.legend.data = result.legend;
                     myChart.hideLoading();
                     myChart.setOption(options);
+                    var ecConfig=require('echarts/config');
+                    myChart.on(ecConfig.EVENT.CLICK,lineclick);
                 }
             }
         });
@@ -293,6 +300,11 @@
 
         mypieChart.hideLoading();
         mypieChart.setOption(pieoptions);
+
+    }
+
+    function lineclick(param){
+        i=param.data.xAxis;
 
     }
 </script>

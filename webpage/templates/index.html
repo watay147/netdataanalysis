@@ -19,26 +19,37 @@
 <body>
 {% include 'indexnav.html' %}
 
-
-<div class="container">
-    <div class="row">
-    <div class="col-md-12" height="200px">
-    <h1 class="text-center">股票舆情监控系统</h1>
-    </div>
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" height="200px">
+                <h1 class="text-center">股票舆情监控系统</h1>
+            </div>
         </div>
 
         <div id="searchbox" class="row">
 
             <div class="col-md-6 col-xs-6 col-md-offset-2 col-xs-offset-2">
                 <input  type="text" class="form-control"  id="searchtext"
-                         placeholder="请输入股票名称或股票代码">
+                        placeholder="请输入股票名称或股票代码">
             </div>
             <div class="col-md-4 col-xs-4 ">
-            <a id="searchbtn" type="button" class="btn btn-primary" >搜索</a>
-                </div>
+                <a id="searchbtn" type="button" class="btn btn-primary" >搜索</a>
+            </div>
 
-           </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container">
+    <div id="indexgraph">
+        <img  src="{% static "img/index-featrue.png" %}">
+    </div>
     <div  id="display" class="row">
+
+
         <div class="row">
             <div class="col-md-6 col-sm-6 col-xs-12 text-center">
                 <h3>Top10信誉度排名公司</h3>

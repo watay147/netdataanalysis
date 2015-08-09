@@ -11,7 +11,7 @@
     {% load staticfiles %}
     <title>股票舆情监控系统</title>
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "css/index.css" %}" rel="stylesheet">
+    <link href="{% static "css/article.css" %}" rel="stylesheet">
     <script src="{% static "js/jquery-1.11.3.js" %}"></script>
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 
@@ -20,10 +20,12 @@
 {% include 'indexnav.html' %}
 <div class="container" style="min-height: 500px;">
     {% if article %}
+<div class="mod-head">
     <h2 class="text-center">{{article.title}}</h2>
     <p class="text-center">{{article.date}}</p>
-    <hr/>
-    <div width="80%">{{article.content}}</div>
+</div>
+
+    <div class="mod-body" >{{article.content}}</div>
     {% else %}
     <h2>没有该文章</h2>
     {% endif %}
