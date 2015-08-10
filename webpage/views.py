@@ -62,7 +62,7 @@ def linedata(stockno):
         'type':'line',
         'data':[x.creditindex for x in plotdata],
         'markPoint':{
-            'data':[{'name':x.markdescription,'value':x.creditindex,'xAxis':str(x.stadate),'yAxis':x.creditindex} for x in plotdata if x.shouldmark]
+            'data':[{'xAxis':str(x.stadate),'yAxis':x.creditindex} for x in plotdata if x.shouldmark]
         }
         })
     result['series'].append({
@@ -72,6 +72,17 @@ def linedata(stockno):
         'data':[x.price for x in plotdata]
         })
     return HttpResponse(json.dumps(result), content_type="application/json")
+
+def eventstipslist(request):
+    stockno=request.GET['stockno']
+    xAxis=request.GET['xAxis']
+    eventdata=events.objects.order_by('-hot').filter(Q(stockno=stockno)&Q(date=xAxis))
+    if request.GET['type']=='part':
+        eventdata=eventdata[:4]
+    result=[{'title':x.title,'id':x.id} for x in eventdata]
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+
 
 def piedata(stockno,sta,end):
     piedata=statics.objects.order_by('-stadate').filter(stockno=stockno)[0]

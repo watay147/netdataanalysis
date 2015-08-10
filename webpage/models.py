@@ -31,7 +31,7 @@ class statics(models.Model):
     creditorder=models.IntegerField()
     price=models.FloatField()
     shouldmark=models.BooleanField()
-    markdescription=models.CharField(max_length=200)
+    
 
     def __unicode__(self):  # __str__ on Python 3
         return str(self.id)

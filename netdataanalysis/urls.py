@@ -28,6 +28,8 @@ urlpatterns = [
 
     url(r'^viewcompany/(\d+)$','webpage.views.viewcompany',name='viewcompany'),
     url(r'^complotdata$','webpage.views.complotdata',name='complotdata'),
+    url(r'^eventstipslist','webpage.views.eventstipslist',name='eventstipslist'),
+
     url(r'^viewevent/(\d+)$','webpage.views.viewevent',name='viewevent'),
     url(r'^viewnew/(\d+)$','webpage.views.viewnew',name='viewnew'),
 

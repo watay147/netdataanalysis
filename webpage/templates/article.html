@@ -22,7 +22,7 @@
     {% if article %}
 <div class="mod-head">
     <h2 class="text-center">{{article.title}}</h2>
-    <p class="text-center">{{article.date}}</p>
+    <p class="text-center">{{article.date|date:"Y-m-d"}}</p>
 </div>
 
     <div class="mod-body" >{{article.content}}</div>
