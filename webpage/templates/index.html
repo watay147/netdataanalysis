@@ -59,10 +59,10 @@
                 {% for company in topcredit_list %}
                 <tr>
                     <td>
-                        <a class="col-md-6 col-sm-6 col-sm-6 text-left" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                        <a  href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
                     </td>
                     <td>
-                        <span class="col-md-5 col-sm-5 col-sm-5 text-right">排名第{{company.creditorder }}名</span>
+                        <span >排名第{{company.creditorder }}名</span>
                         {% if company.creditchange < 0 %}
 
                         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
@@ -88,14 +88,20 @@
                 <p>没有信誉度前10公司列表</p>
                 {% endif %}
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 text-center">
+            <div class="col-md-5 col-md-offset-1 col-sm-5 col-xs-12 text-center">
                 <h3>Top10舆情事件</h3>
                 {% if topevent_list %}
-                <ul>
+                <table class="table text-center table-striped" >
+
                     {% for event in topevent_list %}
-                    <li><a  class="text-left" href="{% url 'events' event.id %}">{{ event.title }}</a></li>
+                    <tr>
+                        <td>
+                            <a  class="text-left" href="{% url 'events' event.id %}">{{ event.title }}</a>
+                        </td>
+                    </tr>
+
                     {% endfor %}
-                </ul>
+               </table>
                 {% else %}
                 <p>没有可供展示的舆情事件</p>
                 {% endif %}
@@ -103,39 +109,52 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-12 text-center">
+            <div class="col-md-6  col-sm-6 col-xs-12 text-center">
                 <h3>预警信息</h3>
                 {% if attention_list %}
-
+                <table class="table text-center table-striped" >
                 {% for company in attention_list %}
-                <a class="col-md-12 col-sm-12 col-xs-12 text-left" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}
+                    <tr>
+                        <td>
+                            <a class="col-md-12 col-sm-12 col-xs-12" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}
+                                {% if company.creditchange < 0 %}
 
-                    {% if company.creditchange < 0 %}
+
+                                信誉度排名上升{% widthratio company.creditchange 1 -1 %}名
+                                {% elif company.creditchange > 0 %}
+                                信誉度排名下降{% widthratio company.creditchange 1 1 %}名
+                                {% else %}
+
+                                信誉度排名不变
+                                {% endif %}
+                            </a>
+                        </td>
+                    </tr>
 
 
-                    信誉度排名上升{% widthratio company.creditchange 1 -1 %}名
-                    {% elif company.creditchange > 0 %}
-                    信誉度排名下降{% widthratio company.creditchange 1 1 %}名
-                    {% else %}
 
-                    信誉度排名不变
-                    {% endif %}
-                </a>
-                <br/>
+
+
                 {% endfor %}
-
+                </table>
                 {% else %}
                 <p>No polls are available.</p>
                 {% endif %}
                 </div>
-            <div class="col-md-6 col-sm-6 col-xs-12 text-center">
+            <div class="col-md-5 col-md-offset-1 col-sm-5 col-xs-12 text-center">
                 <h3>Top10热门新闻</h3>
                 {% if topnew_list %}
-                <ul>
+                <table class="table text-center table-striped" >
+
                     {% for new in topnew_list %}
-                    <li><a class="text-left" href="{% url 'news' new.id %}">{{ new.title }}</a></li>
+                    <tr>
+                        <td>
+                            <a class="text-left" href="{% url 'news' new.id %}">{{ new.title }}</a>
+                        </td>
+                    </tr>
+
                     {% endfor %}
-                </ul>
+               </table>
                 {% else %}
                 <p>没有可供展示的热门新闻</p>
                 {% endif %}

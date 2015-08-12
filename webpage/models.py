@@ -38,9 +38,13 @@ class statics(models.Model):
 
 class events(models.Model):
     stockno=models.CharField(max_length=6)
+    comname=models.CharField(max_length=80)
     date=models.DateField()
     content=models.TextField()
     title=models.CharField(max_length=100)
+    click=models.IntegerField()
+    reply=models.IntegerField()
+    source=models.CharField(max_length=40)
     hot=models.IntegerField()
 
     def __unicode__(self):  # __str__ on Python 3
@@ -48,9 +52,13 @@ class events(models.Model):
 
 class news(models.Model):
     stockno=models.CharField(max_length=6)
+    comname=models.CharField(max_length=80)
     date=models.DateField()
     content=models.TextField()
     title=models.CharField(max_length=100)
+    click=models.IntegerField()
+    reply=models.IntegerField()
+    source=models.CharField(max_length=40)
     hot=models.IntegerField()
 
     def __unicode__(self):  # __str__ on Python 3

@@ -32,8 +32,8 @@
             <a href="{% url 'viewevent' event.id %}">{{ event.title }}</a>
                 </td>
         <td>
-
-            {{event.date|date:"Y-m-d"}}
+            相关股票：{{event.comname}}，
+            日期：{{event.date|date:"Y-m-d"}}
         </td>
                     </tr>
             {% endfor %}

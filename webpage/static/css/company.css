@@ -24,3 +24,20 @@ padding-top: 5px;
 
 
 }
+
+#leftnav{
+    position: fixed;
+    top:100px;
+    left:2px;
+    z-index: 9999;
+}
+#leftnav a{
+    font-size:14px;
+    font-weight:500 ;
+    color:#767676;
+    text-decoration: none;
+}
+#leftnav a:hover{
+
+    color:#136A9F;
+}

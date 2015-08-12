@@ -22,47 +22,67 @@
 <body>
 {% include 'indexnav.html' %}
 <div class="container">
+    <div class="row">
+        <div class="col-md-1">
+            <nav id="leftnav">
+                <ul>
+                    <li><a href="#comintro">公司简介</a></li>
+                    <li><a href="#index">舆情指数与相关统计</a></li>
+                    <li><a href="#event">热点舆情</a></li>
+                    <li><a href="#new">热点新闻</a></li>
+                    <li><a href="#attention">个股提醒</a></li>
+                </ul>
+            </nav>
+            </div>
+
+<div class="col-md-11">
     <br/>
     {% if company %}
     <div class="row">
         <div class="col-md-4 ">
         <h1>{{ company.name }}</h1>
     </div>
-        <div class="col-md-8">
-            <h4> {{ company.description }}</h4>
+        <div id="comintro" class="col-md-8">
+            <h4><b>公司简介：</b> <br/>{{ company.description }}</h4>
 
             </div>
     </div>
 
     <div class="row">
-        <div class="mod-head">
-        <h3>舆情指数与股价变化对比</h3>
+        <div id="index" class="mod-head">
+        <h3>舆情指数与相关统计</h3>
         </div>
+        <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <label>选择舆情指数与相关统计信息查询时段：</label><br/>
+            <label>起始日期：</label><input id="startdate" value="2015-08-02"/><br/>
+            <label>终止日期：</label><input id="enddate" value="2015-08-03"/><br/>
+            <a id="getpiechart" type="button" class="btn btn-primary" >查询</a>
+        </div>
+            </div>
+        <br/>
         <div id="lineplot" style="height: 400px;">
         </div>
         <div id="eventstipsdiv" style="display: none;">
 
         </div>
+        <br/>
+        <div class="row">
+
+            <div class="col-md-8 col-sm-8 col-xs-8">
+                <div id="piechart" style="height: 400px;">
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row">
-        <div class="mod-head">
+        <div id="event" class="mod-head">
         <h3>热点舆情</h3>
         </div>
-        <div class="row">
-            <div class="col-md-4 col-sm-4 col-xs-4">
-                <label>选择各类舆情偏向占比统计时段：</label><br/>
-                <label>起始日期：</label><input id="startdate" value="2015-07-06"/><br/>
-                <label>终止日期：</label><input id="enddate" value="2015-07-08"/><br/>
-                <a id="getpiechart" type="button" class="btn btn-primary" >Go</a>
-                </div>
-            <div class="col-md-8 col-sm-8 col-xs-8">
-            <div id="piechart" style="height: 400px;">
 
-            </div>
-            </div>
-        </div>
-        <br/>
+
         <div class="row">
 
         {% if event_list %}
@@ -73,7 +93,10 @@
               <a href="{% url 'viewevent' event.id %}">{{ event.title }}</a>
           </td>
           <td>
-              日期：{{event.date|date:"Y-m-d"}}
+              阅读数：{{event.click}}，
+              回复数：{{event.reply}}，
+              日期：{{event.date|date:"Y-m-d"}}，
+              来源：{{event.source}}
           </td>
       </tr>
 
@@ -89,7 +112,7 @@
     </div>
 
     <div class="row">
-        <div class="mod-head">
+        <div id="new" class="mod-head">
         <h3>热点新闻</h3>
             </div>
         {% if new_list %}
@@ -101,7 +124,10 @@
             <a href="{% url 'viewnew' new.id %}">{{ new.title }}</a>
         </td>
        <td>
-            日期：{{new.date|date:"Y-m-d"}}
+           阅读数：{{new.click}}，
+           回复数：{{new.reply}}，
+           日期：{{new.date|date:"Y-m-d"}}，
+           来源：{{new.source}}
        </td>
             </tr>
         {% endfor %}
@@ -112,7 +138,7 @@
     </div>
 
     <div class="row">
-        <div class="mod-head">
+        <div id="attention" class="mod-head">
         <h3>个股提醒</h3>
             </div>
         </div>
@@ -122,6 +148,9 @@
         没有该公司信息
         </div>
     {% endif %}
+</div>
+
+    </div>
 </div>
 {% include 'footer.html' %}
 
@@ -163,70 +192,43 @@
         });
     });
 
-    $(document).ready(function () {
-        $("#getpiechart").click(function () {
-            mypieChart.showLoading({
-                text:"图表数据正在努力加载..."
-            });
-            pieoptions={
-                title : {
-                    text: '各类舆情偏向占比',
-                    x:'left'
-                },
-                legend:{
-                    data:[],
-                    x:'center'
 
-                },
-                calculable : true,
-                series :[]
-            };
-            $.ajax({
-                type:"get",
-                async:true,
-                url:'{% url 'complotdata' %}',
-                dataType:"json",
-                data:{stockno:'{{company.stockno}}',type:'pie',sta:$('#startdate').val(),end:$('#enddate').val()},
-                success: function (result) {
-                    if(result){
-
-                        pieoptions.series = result.series;
-                        pieoptions.legend.data = result.legend;
-                        mypieChart.hideLoading();
-                        mypieChart.setOption(pieoptions);
-                    }
-                }
-            });
+    function drawpiechart() {
+        mypieChart.showLoading({
+            text:"图表数据正在努力加载..."
         });
-    });
+        pieoptions={
+            title : {
+                text: '各类舆情偏向占比',
+                x:'left'
+            },
+            legend:{
+                data:[],
+                x:'center'
 
-    // 路径配置
-    require.config({
-        paths: {
-            echarts: "{% static "echarts/build/dist" %}"
-        }
-    });
+            },
+            calculable : true,
+            series :[]
+        };
+        $.ajax({
+            type:"get",
+            async:true,
+            url:'{% url 'complotdata' %}',
+            dataType:"json",
+            data:{stockno:'{{company.stockno}}',type:'pie',sta:$('#startdate').val(),end:$('#enddate').val()},
+            success: function (result) {
+                if(result){
 
-    // 使用
-    require(
-            [
-                'echarts',
-                'echarts/chart/line', // 使用柱状图就加载bar模块，按需加载
-                'echarts/chart/pie'
-
-            ],
-            function (ec) {
-                initlineplot(ec);
-                initpiechart(ec);
-
-
+                    pieoptions.series = result.series;
+                    pieoptions.legend.data = result.legend;
+                    mypieChart.hideLoading();
+                    mypieChart.setOption(pieoptions);
+                }
             }
-    );
+        });
+    }
 
-
-    function initlineplot(ec){
-        // 基于准备好的dom，初始化echarts图表
-        var myChart = ec.init(document.getElementById('lineplot'));
+    function drawlineplot(){
         myChart.showLoading({
             text:"图表数据正在努力加载..."
         });
@@ -283,7 +285,7 @@
             async:true,
             url:'{% url 'complotdata' %}',
             dataType:"json",
-            data:{stockno:'{{company.stockno}}',type:'line'},
+            data:{stockno:'{{company.stockno}}',type:'line',sta:$('#startdate').val(),end:$('#enddate').val()},
             success: function (result) {
                 if(result){
                     //将返回的category和series对象赋值给options对象内的category和series
@@ -294,38 +296,74 @@
                     myChart.hideLoading();
                     myChart.setOption(options);
                     var ecConfig=require('echarts/config');
-                    myChart.on(ecConfig.EVENT.CLICK,lineclick);
+                    myChart.on(ecConfig.EVENT.HOVER,lineclick);
                 }
             }
         });
     }
 
+    $(document).ready(function () {
+        $("#getpiechart").click(function () {
+            drawpiechart();
+            drawlineplot();
+
+        });
+
+
+
+
+
+
+    });
+
+    // 路径配置
+    require.config({
+        paths: {
+            echarts: "{% static "echarts/build/dist" %}"
+        }
+    });
+
+    // 使用
+    require(
+            [
+                'echarts',
+                'echarts/chart/line', // 使用柱状图就加载bar模块，按需加载
+                'echarts/chart/pie'
+
+            ],
+            function (ec) {
+                initlineplot(ec);
+                initpiechart(ec);
+
+
+            }
+    );
+
+
+    function initlineplot(ec){
+        // 基于准备好的dom，初始化echarts图表
+         myChart = ec.init(document.getElementById('lineplot'));
+        drawlineplot();
+    }
+
     function initpiechart(ec){
         mypieChart = ec.init(document.getElementById('piechart'));
-        mypieChart.showLoading({
-            text:"图表数据正在努力加载..."
-        });
-        pieoptions={
-            title : {
-                text: '各类舆情偏向占比',
-                x:'left'
-            },
-            legend:{
-                data:[],
-                x:'center'
 
-            },
-            calculable : true,
-            series :[]
-        };
+        drawpiechart();
 
-        mypieChart.hideLoading();
-        mypieChart.setOption(pieoptions);
+
 
     }
 
+    $(document).ready(function () {
+        lastxAxis=0;
+    });
     function lineclick(param){
         var xAxis=param.data.xAxis;
+        if(xAxis==lastxAxis)
+            return;
+        else
+            lastxAxis=xAxis;
         var stockno="{{company.stockno}}";
         $.get("{% url 'eventstipslist'%}",{
         'xAxis':xAxis,
@@ -333,8 +371,9 @@
         'count':'4'
         }, function (response) {
             result=eval(response);
-            $("#eventstipsdiv").html("");
+
             $("#eventstipsdiv").fadeOut(0, function () {
+                $("#eventstipsdiv").html("");
                 if(result.length!=0)
                 {
                     $("#eventstipsdiv").append("<h4>"+xAxis+"关联事件：</h4>");
@@ -346,6 +385,9 @@
                     var td=$("<td></td>");
                     td.append(ele);
                     var tr=$("<tr></tr>");
+                    tr.append(td);
+                    td=$("<td></td>");
+                    td.text("阅读数："+this.click+"，回复数："+this.reply+"，来源："+this.source);
                     tr.append(td);
                     $("#eventstipsdiv table").append(tr);
                 });

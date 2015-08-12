@@ -51,8 +51,8 @@ def viewcompany(request,stockno):
 
 
 
-def linedata(stockno):
-    plotdata=statics.objects.order_by('stadate').filter(stockno=stockno)
+def linedata(stockno,sta,end):
+    plotdata=statics.objects.order_by('stadate').filter(Q(stockno=stockno)&Q(stadate__gte=sta)&Q(stadate__lte=end))
     result={}
     result['legend']=[u'舆情指数',u'股价']
     result['category']=[str(x.stadate) for x in plotdata]#只能使用.xx访问而不是['xx']
@@ -79,7 +79,7 @@ def eventstipslist(request):
     eventdata=events.objects.order_by('-hot').filter(Q(stockno=stockno)&Q(date=xAxis))
     if request.GET['count']!='full':
         eventdata=eventdata[:int(request.GET['count'])]
-    result=[{'title':x.title,'id':x.id} for x in eventdata]
+    result=[{'title':x.title,'id':x.id,'click':x.click,'reply':x.reply,'source':x.source} for x in eventdata]
     return HttpResponse(json.dumps(result), content_type="application/json")
 
 
@@ -107,7 +107,7 @@ def complotdata(request):
     stockno=request.GET['stockno']
     plottype=request.GET['type']
     if plottype=='line':
-        return linedata(stockno)
+        return linedata(stockno,request.GET['sta'],request.GET['end'])
     elif plottype=='pie':
         return piedata(stockno,request.GET['sta'],request.GET['end'])
 

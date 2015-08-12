@@ -32,8 +32,8 @@
                 <a href="{% url 'viewnew' new.id %}">{{ new.title }}</a>
           </td>
                     <td>
-
-               {{new.date|date:"Y-m-d"}}
+                        相关股票：{{new.comname}}，
+              日期： {{new.date|date:"Y-m-d"}}
                     </td>
                     </tr>
             {% endfor %}
