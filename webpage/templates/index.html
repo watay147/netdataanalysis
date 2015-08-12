@@ -19,6 +19,7 @@
 <body>
 {% include 'indexnav.html' %}
 
+<!--开头大标题与搜索框-->
 <div class="jumbotron">
     <div class="container">
         <div class="row">
@@ -54,27 +55,35 @@
             <div class="col-md-6 col-sm-6 col-xs-12 text-center">
                 <h3>Top10信誉度排名公司</h3>
                 {% if topcredit_list %}
-
+                <table class="table text-center table-striped" >
                 {% for company in topcredit_list %}
+                <tr>
+                    <td>
+                        <a class="col-md-6 col-sm-6 col-sm-6 text-left" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                    </td>
+                    <td>
+                        <span class="col-md-5 col-sm-5 col-sm-5 text-right">排名第{{company.creditorder }}名</span>
+                        {% if company.creditchange < 0 %}
 
-                <a class="col-md-6 col-sm-6 col-sm-6 text-left" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                        <!--span>（上升{{company.creditchange }}名）</span-->
+                        {% elif company.creditchange > 0 %}
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                        <!--span>（下降{0-{ company.creditchange }}名）</span-->
+                        {% else %}
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        <!--span>（名次不变）</span-->
+                        {% endif %}
+                    </td>
+                </tr>
 
-                {% if company.creditchange < 0 %}
 
-                <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-                <!--span>（上升{{company.creditchange }}名）</span-->
-                {% elif company.creditchange > 0 %}
-                <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                <!--span>（下降{0-{ company.creditchange }}名）</span-->
-                {% else %}
-                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                <!--span>（名次不变）</span-->
-                {% endif %}
-                <span class="col-md-5 col-sm-5 col-sm-5 text-right">排名第{{company.creditorder }}名</span>
 
-                <br/>
+
+
+
                 {% endfor %}
-
+                </table>
                 {% else %}
                 <p>没有信誉度前10公司列表</p>
                 {% endif %}

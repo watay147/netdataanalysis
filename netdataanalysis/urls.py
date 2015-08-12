@@ -31,6 +31,9 @@ urlpatterns = [
     url(r'^eventstipslist','webpage.views.eventstipslist',name='eventstipslist'),
 
     url(r'^viewevent/(\d+)$','webpage.views.viewevent',name='viewevent'),
+    url(r'^viewevent/','webpage.views.viewevent',name='Dviewevent'),
+    
+
     url(r'^viewnew/(\d+)$','webpage.views.viewnew',name='viewnew'),
 
 ]

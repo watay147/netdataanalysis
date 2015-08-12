@@ -330,7 +330,7 @@
         $.get("{% url 'eventstipslist'%}",{
         'xAxis':xAxis,
         'stockno':stockno,
-        'type':'part'
+        'count':'4'
         }, function (response) {
             result=eval(response);
             $("#eventstipsdiv").html("");
@@ -342,7 +342,7 @@
                 }
                 $.each(result, function () {
                     var ele=$("<a></a>").text(this.title);
-                    ele.attr("href","{% url 'viewevent' 0 %}".slice(0,11)+this.id);
+                    ele.attr("href","{% url 'Dviewevent' %}"+this.id);
                     var td=$("<td></td>");
                     td.append(ele);
                     var tr=$("<tr></tr>");

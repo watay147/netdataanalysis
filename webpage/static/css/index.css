@@ -21,7 +21,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead{
 }
 
 #display{
-    max-width: 600px;
+    max-width: 960px;
 
     margin-bottom: 150px;
     margin-left: auto;
@@ -42,7 +42,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, .lead{
 
 .jumbotron{
     position:relative;
-    padding:150px 0;
+    padding:50px 0;
     color:#fff;
     text-align:center;
     text-shadow:0 1px 3px rgba(0,0,0,.4),0 0 30px rgba(0,0,0,.075);

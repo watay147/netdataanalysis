@@ -77,8 +77,8 @@ def eventstipslist(request):
     stockno=request.GET['stockno']
     xAxis=request.GET['xAxis']
     eventdata=events.objects.order_by('-hot').filter(Q(stockno=stockno)&Q(date=xAxis))
-    if request.GET['type']=='part':
-        eventdata=eventdata[:4]
+    if request.GET['count']!='full':
+        eventdata=eventdata[:int(request.GET['count'])]
     result=[{'title':x.title,'id':x.id} for x in eventdata]
     return HttpResponse(json.dumps(result), content_type="application/json")
 
