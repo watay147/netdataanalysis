@@ -19,7 +19,9 @@ def index(request):
 
 def indexcreditorders(request):
     order_list=company.objects.order_by('creditorder').all()
-    context = {'order_list': order_list}
+    monorder_list=company.objects.order_by('moncreditorder').all()
+    weekorder_list=company.objects.order_by('weekcreditorder').all()
+    context = {'order_list': order_list,'monorder_list':monorder_list,'weekorder_list':weekorder_list}
     return render(request,'indexcreditorders.html',context)
 
 def indexevents(request):
@@ -49,7 +51,15 @@ def viewcompany(request,stockno):
             "new_list":new_list}
     return render(request,'company.html',context)
 
+def comintro(request,stockno):
+    acompany=get_object_or_404(company, stockno=stockno)
+    context={"company":acompany}
+    return render(request,'comintro.html',context)
 
+def comfinance(request,stockno):
+    acompany=get_object_or_404(company, stockno=stockno)
+    context={"company":acompany}
+    return render(request,'comfinance.html',context)
 
 def linedata(stockno,sta,end):
     plotdata=statics.objects.order_by('stadate').filter(Q(stockno=stockno)&Q(stadate__gte=sta)&Q(stadate__lte=end))

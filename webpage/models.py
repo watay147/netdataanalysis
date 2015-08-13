@@ -10,13 +10,24 @@ class BetterCharField(models.Field):
 
 class company(models.Model):
     name=models.CharField(max_length=80)
-    description=models.CharField(max_length=500)
+    intro=models.TextField()
+    finance=models.TextField()
+    ope=models.TextField()
+
     stockno=models.CharField(max_length=6)
     creditindex=models.FloatField()
     creditorder=models.IntegerField()
     creditchange=models.IntegerField()
     attention=models.BooleanField()
     attentionreason=models.CharField(max_length=1000)
+
+    weekcreditindex=models.FloatField()
+    weekcreditorder=models.IntegerField()
+    
+    moncreditindex=models.FloatField()
+    moncreditorder=models.IntegerField()
+
+
 
     def __unicode__(self):  # __str__ on Python 3
         return self.name

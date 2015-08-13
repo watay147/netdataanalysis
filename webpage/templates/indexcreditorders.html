@@ -22,7 +22,7 @@
     <div class="row">
         <h1 class="text-center">信誉度排名</h1>
         <div class="text-center" style="max-width:750px;margin: auto;">
-
+        <h3 class="text-left">日排名</h3>
             {% if order_list %}
             <table class="table text-center table-striped" >
             {% for company in order_list %}
@@ -39,6 +39,44 @@
             {% else %}
             <p>没有排名</p>
             {% endif %}
+
+            <h3 class="text-left">周排名</h3>
+            {% if weekorder_list %}
+            <table class="table text-center table-striped" >
+                {% for company in weekorder_list %}
+                <tr>
+                    <td>
+                        <a href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                    </td>
+                    <td>
+                        <span  >排名第{{company.weekcreditorder}}名</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>没有排名</p>
+            {% endif %}
+
+
+            <h3 class="text-left">月排名</h3>
+            {% if monorder_list %}
+            <table class="table text-center table-striped" >
+                {% for company in monorder_list %}
+                <tr>
+                    <td>
+                        <a href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                    </td>
+                    <td>
+                        <span  >排名第{{company.moncreditorder}}名</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>没有排名</p>
+            {% endif %}
+
         </div>
     </div>
 </div>

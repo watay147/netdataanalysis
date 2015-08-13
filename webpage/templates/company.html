@@ -26,7 +26,8 @@
         <div class="col-md-1">
             <nav id="leftnav">
                 <ul>
-                    <li><a href="#comintro">公司简介</a></li>
+                    <li><a href="{% url 'comintro' company.stockno%}">公司介绍</a></li>
+                    <li><a href="{% url 'comfinance' company.stockno%}">公司财务经营信息</a></li>
                     <li><a href="#index">舆情指数与相关统计</a></li>
                     <li><a href="#event">热点舆情</a></li>
                     <li><a href="#new">热点新闻</a></li>
@@ -42,10 +43,7 @@
         <div class="col-md-4 ">
         <h1>{{ company.name }}</h1>
     </div>
-        <div id="comintro" class="col-md-8">
-            <h4><b>公司简介：</b> <br/>{{ company.description }}</h4>
 
-            </div>
     </div>
 
     <div class="row">
