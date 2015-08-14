@@ -12,9 +12,14 @@ import json
 # Create your views here.
 
 def index(request):
-    topcredit_list=company.objects.all()
-    attention_list=topcredit_list
-    context = {'topcredit_list': topcredit_list,'attention_list':attention_list}
+    topcredit_list=company.objects.order_by('creditorder').all()[:10]
+    attention_list=company.objects.filter(attention=True)[:10]
+    topnew_list=news.objects.order_by('-hot').all()[:10]
+    topevent_list=events.objects.order_by('-hot').all()[:10]
+    context = {'topcredit_list': topcredit_list,
+                'attention_list':attention_list,
+                'topnew_list':topnew_list,
+                'topevent_list':topevent_list}
     return render(request,'index.html', context)
 
 def indexcreditorders(request):
@@ -35,7 +40,8 @@ def indexnews(request):
     return render(request,'indexnews.html',context)
 
 def indexattentions(request):
-    return render(request,'indexattentions.html')
+    attention_list=company.objects.filter(attention=True)
+    return render(request,'indexattentions.html',{'attention_list':attention_list})
 
 def indexsearch(request):
     company_list=company.objects.filter(Q(name__icontains=request.GET['item'])|Q(stockno__icontains=request.GET['item']))
@@ -61,6 +67,15 @@ def comfinance(request,stockno):
     context={"company":acompany}
     return render(request,'comfinance.html',context)
 
+def eventstipslist(request):
+    stockno=request.GET['stockno']
+    xAxis=request.GET['xAxis']
+    eventdata=events.objects.order_by('-hot').filter(Q(stockno=stockno)&Q(date=xAxis))
+    if request.GET['count']!='full':
+        eventdata=eventdata[:int(request.GET['count'])]
+    result=[{'title':x.title,'id':x.id,'click':x.click,'reply':x.reply,'source':x.source} for x in eventdata]
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
 def linedata(stockno,sta,end):
     plotdata=statics.objects.order_by('stadate').filter(Q(stockno=stockno)&Q(stadate__gte=sta)&Q(stadate__lte=end))
     result={}
@@ -83,20 +98,12 @@ def linedata(stockno,sta,end):
         })
     return HttpResponse(json.dumps(result), content_type="application/json")
 
-def eventstipslist(request):
-    stockno=request.GET['stockno']
-    xAxis=request.GET['xAxis']
-    eventdata=events.objects.order_by('-hot').filter(Q(stockno=stockno)&Q(date=xAxis))
-    if request.GET['count']!='full':
-        eventdata=eventdata[:int(request.GET['count'])]
-    result=[{'title':x.title,'id':x.id,'click':x.click,'reply':x.reply,'source':x.source} for x in eventdata]
-    return HttpResponse(json.dumps(result), content_type="application/json")
-
-
-
 def piedata(stockno,sta,end):
-    piedata=statics.objects.order_by('-stadate').filter(stockno=stockno)[0]
-    total=piedata.possent+piedata.negsent+piedata.neusent
+    piedata=statics.objects.filter(Q(stockno=stockno)&Q(stadate__gte=sta)&Q(stadate__lte=end))
+    possent=sum([x.possent for x in piedata])
+    negsent=sum([x.negsent for x in piedata])
+    neusent=sum([x.neusent for x in piedata])
+    total=possent+negsent+neusent
     result={}
     result['legend']=[u'正向',u'负向',u'中性']
     result['series']=[]
@@ -106,9 +113,9 @@ def piedata(stockno,sta,end):
         'type':'pie',
         'center': ['30%', '60%'],
         'data':[
-        {'value':float(piedata.possent)/total,'name':u'正向'},
-        {'value':float(piedata.negsent)/total,'name':u'负向'},
-        {'value':float(piedata.neusent)/total,'name':u'中性'}
+        {'value':float(possent)/total,'name':u'正向'},
+        {'value':float(negsent)/total,'name':u'负向'},
+        {'value':float(neusent)/total,'name':u'中性'}
         ]
         })
     return HttpResponse(json.dumps(result), content_type="application/json")

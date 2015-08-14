@@ -18,6 +18,29 @@
 </head>
 <body>
 {% include 'indexnav.html' %}
+<div class="container" style="min-height: 500px;">
+    <div class="row">
+        <h1 class="text-center">舆情预警</h1>
+        <div class="text-center" style="max-width:750px;margin: auto;">
 
+            {% if attention_list %}
+            <table class="table text-center table-striped" >
+                {% for company in attention_list %}
+                <tr>
+                    <td>
+                        <a href="{% url 'viewcompany' company.stockno %}">{{ company.name }}
+                            {{company.attentionreason}}</a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>没有舆情预警</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}
 </body>
 </html>
