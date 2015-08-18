@@ -1,13 +1,15 @@
 #encoding=utf8
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.http import Http404
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404
+from django.db.models import Q
+import json
 from .models import company
 from .models import events
 from .models import news
 from .models import statics
-from django.shortcuts import get_object_or_404
-from django.db.models import Q
-import json
 
 # Create your views here.
 
@@ -43,10 +45,42 @@ def indexattentions(request):
     attention_list=company.objects.filter(attention=True)
     return render(request,'indexattentions.html',{'attention_list':attention_list})
 
+
 def indexsearch(request):
-    company_list=company.objects.filter(Q(name__icontains=request.GET['item'])|Q(stockno__icontains=request.GET['item']))
-    context={'company_list':company_list}
-    return render(request,'indexsearch.html',context)
+    if 'item' in request.session and request.GET['item']==request.session['item'] and 'pagenum' in request.GET:
+        item=request.GET['item']
+        pagenum=int(request.GET['pagenum'])
+        company_list=company.objects.filter(Q(name__icontains=item)|Q(stockno__icontains=item))
+        p=Paginator(company_list,10)
+        if pagenum>p.num_pages:
+            raise Http404(u'页码错误')
+        page=p.page(pagenum)
+        context={'company_list':page.object_list}
+        if page.has_previous():
+            context['previous']=page.previous_page_number()
+        if page.has_next():
+            context['next']=page.next_page_number()
+        context['first']=1
+        context['final']=p.num_pages
+        context['item']=item
+        return render(request,'indexsearch.html',context)
+    else:
+        request.session['item']=request.GET['item']
+        item=request.GET['item']
+        company_list=company.objects.filter(Q(name__icontains=item)|Q(stockno__icontains=item))
+        p=Paginator(company_list,10)
+        if p.num_pages<1:#没有符合搜索条件的页面
+            context={}
+            return render(request,'indexsearch.html',context)
+        page=p.page(1)#从第一页开始
+        context={'company_list':page.object_list}
+        if page.has_next():
+            context['next']=page.next_page_number()
+        context['first']=1
+        context['final']=p.num_pages
+        context['item']=item
+        return render(request,'indexsearch.html',context)
+
 
 def viewcompany(request,stockno):
     acompany=get_object_or_404(company, stockno=stockno)
