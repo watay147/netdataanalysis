@@ -40,11 +40,15 @@
             <table class="table text-center table-striped" >
             {% for company in order_list %}
                 <tr>
-                    <td class="text-left" style="padding-left: 100px">
-                        <a  href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
-                    </td>
-                    <td class="text-left">
+                    <td style="padding-left: 70px" class="vertical-align">
+                        <div class="rank" >
                         <span >{{company.creditorder }}</span>
+                        </div>
+                        <a  href="{% url 'viewcompany' company.stockno %}" >{{ company.name }}</a>
+                    </td>
+
+                    <td class="text-left vertical-align">
+
                         {% if company.creditchange < 0 %}
 
                         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
@@ -69,11 +73,14 @@
             <table class="table text-center table-striped" >
                 {% for company in weekorder_list %}
                 <tr>
-                    <td class="text-left" style="padding-left: 100px">
-                        <a  href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                    <td style="padding-left: 70px" class="vertical-align">
+                        <div class="rank" >
+                            <span >{{company.weekcreditorder }}</span>
+                        </div>
+                        <a  href="{% url 'viewcompany' company.stockno %}" >{{ company.name }}</a>
                     </td>
-                    <td class="text-left">
-                        <span >{{company.weekcreditorder }}</span>
+
+                    <td class="text-left vertical-align">
                         {% if company.weekcreditchange < 0 %}
 
                         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
@@ -99,11 +106,14 @@
             <table class="table text-center table-striped" >
                 {% for company in monorder_list %}
                 <tr>
-                    <td class="text-left" style="padding-left: 100px">
-                        <a  href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                    <td style="padding-left: 70px" class="vertical-align">
+                        <div class="rank" >
+                            <span >{{company.moncreditorder }}</span>
+                        </div>
+                        <a  href="{% url 'viewcompany' company.stockno %}" >{{ company.name }}</a>
                     </td>
-                    <td class="text-left">
-                        <span >{{company.moncreditorder }}</span>
+
+                    <td class="text-left vertical-align">
                         {% if company.moncreditchange < 0 %}
 
                         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>

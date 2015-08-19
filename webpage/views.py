@@ -16,8 +16,8 @@ from .models import statics
 def index(request):
     topcredit_list=company.objects.order_by('creditorder').all()[:10]
     attention_list=company.objects.filter(attention=True)[:10]
-    topnew_list=news.objects.order_by('-hot').all()[:10]
-    topevent_list=events.objects.order_by('-hot').all()[:10]
+    topnew_list=news.objects.order_by('-hot').all()[:5]
+    topevent_list=events.objects.order_by('-hot').all()[:5]
     context = {'topcredit_list': topcredit_list,
                 'attention_list':attention_list,
                 'topnew_list':topnew_list,
