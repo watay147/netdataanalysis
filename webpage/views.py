@@ -128,7 +128,7 @@ def linedata(stockno,sta,end):
         'name':u'股价',
         'type':'line',
         'yAxisIndex':1,
-        'data':[x.price for x in plotdata]
+        'data':[x.price if x.price>0 else '-' for x in plotdata]
         })
     return HttpResponse(json.dumps(result), content_type="application/json")
 

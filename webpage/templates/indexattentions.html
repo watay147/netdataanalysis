@@ -27,6 +27,9 @@
             <table class="table text-center table-striped" >
                 {% for company in attention_list %}
                 <tr>
+                    <td class="text-left" style="padding-left: 50px" >
+                        {{company.name}}
+                    </td>
                     <td>
                         <a href="{% url 'viewcompany' company.stockno %}">{{ company.name }}
                             {{company.attentionreason}}</a>
