@@ -25,22 +25,42 @@
         <div class="text-center" style="max-width:750px;margin: auto;">
 
             {% if event_list %}
-            <table class="table text-center table-striped" >
-            {% for event in event_list %}
+            <table class="table text-left table-striped" >
+
+                {% for event in event_list %}
                 <tr>
-                    <td>
-            <a href="{% url 'viewevent' event.id %}">{{ event.title }}</a>
-                </td>
-        <td>
-            相关股票：{{event.comname}}，
-            日期：{{event.date|date:"Y-m-d"}}
-        </td>
-                    </tr>
-            {% endfor %}
+                    <td style="width: 80px">
+                        {{event.comname}}
+                    </td>
+                    <td style=" text-overflow:ellipsis">
+                        <a  class="text-left" href="{% url 'viewevent' event.id %}">{{ event.title }}</a>
+                    </td>
+                    <td style="width: 120px">
+                        关注度：{{event.click}}
+                    </td>
+                    <td style="width: 110px">
+                        情感度：
+                        {% ifequal event.mood 1 %}
+                        正向
+                        {% endifequal %}
+                        {% ifequal event.mood 0 %}
+                        中性
+                        {% endifequal %}
+                        {% ifequal event.mood -1 %}
+                        负向
+                        {%endifequal%}
+                    </td>
+                    <td style="width: 150px">
+                        日期：{{event.date|date:"Y-m-d"}}
+                    </td>
+                </tr>
+
+                {% endfor %}
             </table>
             {% else %}
-            <p>没有舆情事件</p>
+            <p>没有可供展示的舆情事件</p>
             {% endif %}
+
         </div>
     </div>
 </div>

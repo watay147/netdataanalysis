@@ -23,9 +23,11 @@ class company(models.Model):
 
     weekcreditindex=models.FloatField()
     weekcreditorder=models.IntegerField()
+    weekcreditchange=models.IntegerField()
     
     moncreditindex=models.FloatField()
     moncreditorder=models.IntegerField()
+    moncreditchange=models.IntegerField()
 
 
 
@@ -55,6 +57,7 @@ class events(models.Model):
     title=models.CharField(max_length=100)
     click=models.IntegerField()
     reply=models.IntegerField()
+    mood=models.IntegerField()
     source=models.CharField(max_length=40)
     hot=models.IntegerField()
 
@@ -69,6 +72,7 @@ class news(models.Model):
     title=models.CharField(max_length=100)
     click=models.IntegerField()
     reply=models.IntegerField()
+    mood=models.IntegerField()
     source=models.CharField(max_length=40)
     hot=models.IntegerField()
 

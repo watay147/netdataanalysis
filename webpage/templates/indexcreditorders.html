@@ -11,7 +11,7 @@
     {% load staticfiles %}
     <title>股票舆情监控系统</title>
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "css/index.css" %}" rel="stylesheet">
+    <link href="{% static "css/indexcreditorders.css" %}" rel="stylesheet">
     <script src="{% static "js/jquery-1.11.3.js" %}"></script>
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 
@@ -19,37 +19,72 @@
 <body>
 {% include 'indexnav.html' %}
 <div class="container" style="min-height: 500px;">
+
     <div class="row">
+        <div class="col-md-1">
+            <nav id="leftnav">
+                <ul>
+
+                    <li><a href="#day">日排名</a></li>
+                    <li><a href="#week">周排名</a></li>
+                    <li><a href="#month">月排名</a></li>
+
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-11">
         <h1 class="text-center">信誉度排名</h1>
         <div class="text-center" style="max-width:750px;margin: auto;">
-        <h3 class="text-left">日排名</h3>
+        <h3 id="day" class="text-left">日排名</h3>
             {% if order_list %}
             <table class="table text-center table-striped" >
             {% for company in order_list %}
-              <tr>
-                  <td>
-                      <a href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
-                  </td>
-                  <td>
-                  <span  >排名第{{company.creditorder}}名</span>
-                  </td>
-              </tr>
+                <tr>
+                    <td class="text-left" style="padding-left: 100px">
+                        <a  href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                    </td>
+                    <td class="text-left">
+                        <span >{{company.creditorder }}</span>
+                        {% if company.creditchange < 0 %}
+
+                        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                        <span>（近期排名变化上升{% widthratio company.creditchange -1 1%}名）</span>
+                        {% elif company.creditchange > 0 %}
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                        <span>（近期排名变化下降{{ company.creditchange }}名）</span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        <span>（近期排名名次不变）</span>
+                        {% endif %}
+                    </td>
+                </tr>
                 {% endfor %}
             </table>
             {% else %}
             <p>没有排名</p>
             {% endif %}
 
-            <h3 class="text-left">周排名</h3>
+            <h3 id="week" class="text-left">周排名</h3>
             {% if weekorder_list %}
             <table class="table text-center table-striped" >
                 {% for company in weekorder_list %}
                 <tr>
-                    <td>
-                        <a href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                    <td class="text-left" style="padding-left: 100px">
+                        <a  href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
                     </td>
-                    <td>
-                        <span  >排名第{{company.weekcreditorder}}名</span>
+                    <td class="text-left">
+                        <span >{{company.weekcreditorder }}</span>
+                        {% if company.weekcreditchange < 0 %}
+
+                        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                        <span>（近期排名变化上升{% widthratio company.weekcreditchange -1 1%}名）</span>
+                        {% elif company.weekcreditchange > 0 %}
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                        <span>（近期排名变化下降{{ company.weekcreditchange }}名）</span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        <span>（近期排名名次不变）</span>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -59,16 +94,27 @@
             {% endif %}
 
 
-            <h3 class="text-left">月排名</h3>
+            <h3 id="month" class="text-left">月排名</h3>
             {% if monorder_list %}
             <table class="table text-center table-striped" >
                 {% for company in monorder_list %}
                 <tr>
-                    <td>
-                        <a href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
+                    <td class="text-left" style="padding-left: 100px">
+                        <a  href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
                     </td>
-                    <td>
-                        <span  >排名第{{company.moncreditorder}}名</span>
+                    <td class="text-left">
+                        <span >{{company.moncreditorder }}</span>
+                        {% if company.moncreditchange < 0 %}
+
+                        <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                        <span>（近期排名变化上升{% widthratio company.moncreditchange -1 1%}名）</span>
+                        {% elif company.moncreditchange > 0 %}
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                        <span>（近期排名变化下降{{ company.moncreditchange }}名）</span>
+                        {% else %}
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        <span>（近期排名名次不变）</span>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -78,6 +124,7 @@
             {% endif %}
 
         </div>
+            </div>
     </div>
 </div>
 {% include 'footer.html' %}

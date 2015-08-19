@@ -11,14 +11,27 @@
     {% load staticfiles %}
     <title>股票舆情监控系统</title>
     <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" />
-
+    <link href="{% static "css/comother.css" %}" rel="stylesheet" />
     <script src="{% static "js/jquery-1.11.3.js" %}" /></script>
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 </head>
 <body>
 {% include 'indexnav.html' %}
 <div class="container">
+    <div class="col-md-1">
+        <nav id="leftnav">
+            <ul>
 
+                <li><a href="#index">财务指标</a></li>
+                <li><a href="#compare">环比分析</a></li>
+                <li><a href="#major">主营业务</a></li>
+                <li><a href="#struct">主营构成分析</a></li>
+                <li><a href="#invest">经营投资</a></li>
+                <li><a href="#con">参股控股企业经营状况</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-md-11">
 
     <h3>{{company.name}}公司财务经营信息</h3>
     <a href="{% url 'viewcompany' company.stockno %}">返回</a><br/><br/>
@@ -30,7 +43,7 @@
     {% autoescape off %}
     {{company.ope}}
     {% endautoescape %}
-
+</div>
 
 </div>
 {% include 'footer.html' %}

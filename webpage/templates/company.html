@@ -27,10 +27,10 @@
             <nav id="leftnav">
                 <ul>
                     <li><a href="{% url 'comintro' company.stockno%}">公司介绍</a></li>
-                    <li><a href="{% url 'comfinance' company.stockno%}">公司财务经营信息</a></li>
-                    <li><a href="#index">舆情指数与相关统计</a></li>
-                    <li><a href="#event">热点舆情</a></li>
-                    <li><a href="#new">热点新闻</a></li>
+                    <li><a href="{% url 'comfinance' company.stockno%}">财务信息</a></li>
+                    <li><a href="#index">舆情指数</a></li>
+                    <li><a href="#event">舆情热点</a></li>
+                    <li><a href="#new">热门新闻</a></li>
                     <li><a href="#attention">个股提醒</a></li>
                 </ul>
             </nav>
@@ -53,8 +53,8 @@
         <div class="row">
         <div class="col-md-4 col-sm-4 col-xs-4">
             <label>选择舆情指数与相关统计信息查询时段：</label><br/>
-            <label>起始日期：</label><input id="startdate" value="2015-06-02"/><br/>
-            <label>终止日期：</label><input id="enddate" value="2015-07-02"/><br/>
+            <label>起始日期：</label><input id="startdate" value="2015-04-01"/><br/>
+            <label>终止日期：</label><input id="enddate" value="2015-07-01"/><br/>
             <a id="getpiechart" type="button" class="btn btn-primary" >查询</a>
         </div>
             </div>

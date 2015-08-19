@@ -18,13 +18,25 @@
 <body>
 {% include 'indexnav.html' %}
 <div class="container">
+    <div class="col-md-1">
+        <nav id="leftnav">
+            <ul>
 
+                <li><a href="#basic">基本资料</a></li>
+                <li><a href="#ipo">发行上市</a></li>
+                <li><a href="#company">关联企业</a></li>
+
+            </ul>
+        </nav>
+    </div>
+    <div class="col-md-11">
 
         <h3>{{company.name}}公司介绍</h3>
         <a href="{% url 'viewcompany' company.stockno %}">返回</a><br/><br/>
         {% autoescape off %}
         {{company.intro}}
         {% endautoescape %}
+        </div>
 
 
 </div>

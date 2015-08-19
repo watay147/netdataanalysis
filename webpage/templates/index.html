@@ -52,31 +52,31 @@
 
 
         <div class="row">
-            <div class="col-md-6 col-sm-6 col-xs-12 text-center">
-                <h3>Top10信誉度排名公司</h3>
+            <div class="col-md-4 col-sm-4 col-xs-12 text-center">
+                <h3>信誉排名</h3>
+
                 {% if topcredit_list %}
                 <table class="table text-center table-striped" >
                 {% for company in topcredit_list %}
                 <tr>
-                    <td>
+                    <td class="text-left" style="padding-left: 10px">
                         <a  href="{% url 'viewcompany' company.stockno %}">{{ company.name }}</a>
                     </td>
-                    <td>
-                        <span >排名第{{company.creditorder }}名</span>
+                    <td class="text-left">
+                        <span >{{company.creditorder }}</span>
                         {% if company.creditchange < 0 %}
 
                         <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-                        <!--span>（上升{{company.creditchange }}名）</span-->
+                        <span>（近期排名变化上升{% widthratio company.creditchange -1 1%}名）</span>
                         {% elif company.creditchange > 0 %}
                         <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-                        <!--span>（下降{0-{ company.creditchange }}名）</span-->
+                        <span>（近期排名变化下降{{ company.creditchange }}名）</span>
                         {% else %}
                         <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                        <!--span>（名次不变）</span-->
+                        <span>（近期排名名次不变）</span>
                         {% endif %}
                     </td>
                 </tr>
-
 
 
 
@@ -87,16 +87,37 @@
                 {% else %}
                 <p>没有信誉度前10公司列表</p>
                 {% endif %}
+                <div style="width: 100%" class="text-right">
+        <a class="more" href="{% url 'indexcreditorders' %}"  >更多</a>
+                </div>
             </div>
-            <div class="col-md-5 col-md-offset-1 col-sm-5 col-xs-12 text-center">
-                <h3>Top10舆情事件</h3>
+            <div class="col-md-8  col-sm-8 col-xs-12 text-center">
+                <h3>舆情热点</h3>
                 {% if topevent_list %}
-                <table class="table text-center table-striped" >
+                <table class="table text-left table-striped" >
 
                     {% for event in topevent_list %}
                     <tr>
-                        <td>
+                        <td style="width: 80px">
+                            {{event.comname}}
+                        </td>
+                        <td style=" text-overflow:ellipsis">
                             <a  class="text-left" href="{% url 'viewevent' event.id %}">{{ event.title }}</a>
+                        </td>
+                        <td style="width: 120px">
+                           关注度：{{event.click}}
+                        </td>
+                        <td style="width: 120px">
+                            情感度：
+                            {% ifequal event.mood 1 %}
+                            正向
+                            {% endifequal %}
+                            {% ifequal event.mood 0 %}
+                            中性
+                            {% endifequal %}
+                            {% ifequal event.mood -1 %}
+                            负向
+                            {%endifequal%}
                         </td>
                     </tr>
 
@@ -105,16 +126,24 @@
                 {% else %}
                 <p>没有可供展示的舆情事件</p>
                 {% endif %}
+                <div style="width: 100%" class="text-right">
+                    <a class="more" href="{% url 'indexevents' %}"  >更多</a>
+                </div>
             </div>
-        </div>
 
+
+        </div>
+        <hr />
         <div class="row">
             <div class="col-md-6  col-sm-6 col-xs-12 text-center">
-                <h3>预警信息</h3>
+                <h3>舆情预警</h3>
                 {% if attention_list %}
                 <table class="table text-center table-striped" >
                 {% for company in attention_list %}
                     <tr>
+                        <td class="text-left" style="width: 80px">
+                            {{company.name}}
+                        </td>
                         <td>
                             <a class="col-md-12 col-sm-12 col-xs-12" href="{% url 'viewcompany' company.stockno %}">{{ company.name }}
                                {{company.attentionreason}}
@@ -131,16 +160,25 @@
                 {% else %}
                 <p>No polls are available.</p>
                 {% endif %}
+                <div style="width: 100%" class="text-right">
+                    <a class="more" href="{% url 'indexattentions' %}"  >更多</a>
                 </div>
-            <div class="col-md-5 col-md-offset-1 col-sm-5 col-xs-12 text-center">
-                <h3>Top10热门新闻</h3>
+                </div>
+            <div class="col-md-6  col-sm-6 col-xs-12 text-center">
+                <h3>热门新闻</h3>
                 {% if topnew_list %}
                 <table class="table text-center table-striped" >
 
                     {% for new in topnew_list %}
                     <tr>
+                        <td style="width: 80px">
+                            {{new.comname}}
+                        </td>
                         <td>
                             <a class="text-left" href="{% url 'viewnew' new.id %}">{{ new.title }}</a>
+                        </td>
+                        <td style="width: 120px">
+                            来源：{{new.source}}
                         </td>
                     </tr>
 
@@ -149,6 +187,9 @@
                 {% else %}
                 <p>没有可供展示的热门新闻</p>
                 {% endif %}
+                <div style="width: 100%" class="text-right">
+                    <a class="more" href="{% url 'indexnews' %}" >更多</a>
+                </div>
                 </div>
         </div>
 

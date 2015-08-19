@@ -25,22 +25,32 @@
         <div class="text-center" style="max-width:750px;margin: auto;">
 
             {% if new_list %}
+
             <table class="table text-center table-striped" >
-            {% for new in new_list %}
+
+                {% for new in new_list %}
                 <tr>
-                    <td>
-                <a href="{% url 'viewnew' new.id %}">{{ new.title }}</a>
-          </td>
-                    <td>
-                        相关股票：{{new.comname}}，
-              日期： {{new.date|date:"Y-m-d"}}
+                    <td style="width: 80px">
+                        {{new.comname}}
                     </td>
-                    </tr>
-            {% endfor %}
-                </table>
+                    <td>
+                        <a class="text-left" href="{% url 'viewnew' new.id %}">{{ new.title }}</a>
+                    </td>
+                    <td style="width: 120px">
+                        来源：{{new.source}}
+                    </td>
+
+                    <td>
+                        日期： {{new.date|date:"Y-m-d"}}
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </table>
             {% else %}
-            <p>没有热门新闻</p>
+            <p>没有可供展示的热门新闻</p>
             {% endif %}
+
         </div>
     </div>
 </div>
